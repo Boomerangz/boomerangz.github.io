@@ -30,7 +30,7 @@ function convertIGC(igc, name) {
     
     
 
-    return documentTemplate.replace('{{color}}', color).replace('{{icon}}', icon).replaceAll('{{name}}', result.pilot||name.replace('.igc', '')).replaceAll('{{coordinates}}', coordinates.join(''));
+    return documentTemplate.replace('{{color}}', color).replace('{{icon}}', icon).replaceAll('{{name}}', name.replace('.igc', '')).replaceAll('{{coordinates}}', coordinates.join(''));
 
 }
 
