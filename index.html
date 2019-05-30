@@ -1,0 +1,71 @@
+<style>
+  .thumb {
+    height: 75px;
+    border: 1px solid #000;
+    margin: 10px 5px 0 0;
+  }
+</style>
+<script src="igc-parse.js" ></script>
+<script src="igc.js" ></script>
+
+<input type="file" id="files" name="files[]" multiple />
+<output id="list"></output>
+
+<script>
+  function download(filename, data) {
+    var blob = new Blob([fileTemplate1].concat(data).concat([fileTemplate2]))
+    var url = window.URL.createObjectURL(blob)
+
+
+    var element = document.createElement('a');
+    element.setAttribute('href', url);
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+  }
+
+
+  const fileTemplate1 = `<kml xmlns:atom="http://www.w3.org/2005/Atom" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns="http://www.opengis.net/kml/2.2">
+    <Folder>`;
+  const fileTemplate2 = `
+    </Folder>
+  </kml>`;
+
+  function handleFileSelect(evt) {
+    var files = element = document.getElementById('files').files; // FileList object
+    var data = [];
+    var count = 0;
+    // Loop through the FileList and render image files as thumbnails.
+    let timer;
+    for (var i = 0, f; f = files[i]; i++) {
+      const fileName = f.name;
+      if (f.name.indexOf('.igc') == -1) {
+        continue
+      }
+      const reader = new FileReader();     
+      let doDownload = false;
+      if (i == files.length-1) {
+        doDownload = true;
+      }
+      reader.onload = function(event) {       
+        data.push(convertIGC(reader.result, fileName));    
+        if (timer) {
+          clearTimeout(timer);
+        }     
+        timer = setTimeout(
+          () => {download('out.kml', data);},
+          1000
+        )                  
+      };
+      // Read in the image file as a data URL.
+      reader.readAsText(f);      
+    }    
+  }
+
+  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+</script>
