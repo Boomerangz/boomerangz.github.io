@@ -7,6 +7,7 @@
    <meta charset="utf-8">
    <title>IGC to KML</title>  
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">   
+   <link rel="stylesheet" href="loader.css">   
    <script src="igc-parse.js" ></script>
   <script src="igc.js" ></script>
   <script
@@ -15,7 +16,6 @@
 			  crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-
   </head> 
   <body>
   <div style="width:100%;">
@@ -30,6 +30,8 @@
     </div>    
     <div style="display: none" id="buttonsdiv">
       <button id="convertbutton" class="btn btn-primary" onclick="handleFileSelect">Конвертировать</button>
+      <br />
+      <div class="lds-ring" id="lds-ring"><div></div><div></div><div></div><div></div></div>
       <br />
       <br />
       <br />
@@ -70,6 +72,7 @@
   </kml>`;
 
   function handleFileSelect(evt) {
+    document.getElementById('lds-ring').style.display = "block";
     var files = element = document.getElementById('files').files; // FileList object
     var data = [];
     var count = 0;
@@ -91,7 +94,9 @@
           clearTimeout(timer);
         }     
         timer = setTimeout(
-          () => {download(new Date().toISOString()+'.kml', data);},
+          () => {
+            download(new Date().toISOString()+'.kml', data);
+            document.getElementById('lds-ring').style.display = "none";},
           1000
         )                  
       };
