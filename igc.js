@@ -3,6 +3,14 @@ String.prototype.replaceAll = function(search, replacement) {
     return target.split(search).join(replacement);
 };
 
+
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+
+const todayString = yyyy + '-' + mm + '-' + dd + "T";
+
 function convertIGC(igc, name) {
     
     let result = IGCParser.parse(igc);
@@ -13,7 +21,7 @@ function convertIGC(igc, name) {
             replaceAll('{{lon}}', c.longitude.toString()).
             replaceAll('{{lat}}', c.latitude.toString()).
             replaceAll('{{alt}}', (c.gpsAltitude||0).toString()).
-            replaceAll('{{time}}', new Date(c.timestamp).toISOString())
+            replaceAll('{{time}}', todayString + c.time)
         )
     }
     const color = '#FF' + (function co(lor){   return (lor +=[0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)]) && (lor.length == 6) ?  lor : co(lor); })('');

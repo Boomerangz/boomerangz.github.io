@@ -69,9 +69,9 @@ var IGCParser = /** @class */ (function () {
             // if (!this._result.loggerId) {
             //     throw new Error("Missing A record");
             // }
-            if (!this._result.date) {
-                throw new Error("Missing HFDTE record");
-            }
+            // if (!this._result.date) {
+            //     throw new Error("Missing HFDTE record");
+            // }
             return this._result;
         },
         enumerable: true,
@@ -254,9 +254,9 @@ var IGCParser = /** @class */ (function () {
         return { latitude: latitude, longitude: longitude, name: name };
     };
     IGCParser.prototype.parseBRecord = function (line) {
-        if (!this._result.date) {
-            throw new Error("Missing HFDTE record before first B record");
-        }
+        // if (!this._result.date) {
+        //     throw new Error("Missing HFDTE record before first B record");
+        // }
         var match = line.match(RE_B);
         if (!match) {
             throw new Error("Invalid B record at line " + this.lineNumber + ": " + line);
